@@ -7,11 +7,9 @@ import logging
 description = '''A great guy who handles stuff you'd want to do during an RPG session'''
 
 intents = discord.Intents.default()
-# intents.members = True
 intents.message_content = True
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 
-#bot = discord.Bot(intents=intents)
 bot = commands.Bot(command_prefix='?', description=description, intents=intents)
 
 @bot.event
