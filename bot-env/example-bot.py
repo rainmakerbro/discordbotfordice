@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import random
-import json
+import bunkertoken
 import logging
 
 description = '''A great guy who handles stuff you'd want to do during an RPG session'''
@@ -10,10 +10,6 @@ intents = discord.Intents.default()
 # intents.members = True
 intents.message_content = True
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-with open('./bot-env/bunkertoken.json') as f:
-    d = json.load(f)
-
-
 
 #bot = discord.Bot(intents=intents)
 bot = commands.Bot(command_prefix='?', description=description, intents=intents)
@@ -42,4 +38,4 @@ async def roll(ctx, dice: str):
     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
     await ctx.send(result)
 
-bot.run(f'{d}', log_handler=handler)
+bot.run(f'{bunkertoken.token}', log_handler=handler)
