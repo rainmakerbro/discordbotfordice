@@ -1,8 +1,13 @@
+import os
 import discord
 from discord.ext import commands
 import random
-import bunkertoken
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TOKEN = os.getenv("TOKEN")
 
 description = '''A great guy who handles stuff you'd want to do during an RPG session'''
 
@@ -36,4 +41,4 @@ async def roll(ctx, dice: str):
     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
     await ctx.send(result)
 
-bot.run(f'{bunkertoken.token}', log_handler=handler)
+bot.run(TOKEN, log_handler=handler)

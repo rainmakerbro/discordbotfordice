@@ -3,6 +3,7 @@
 bunkertoken.py
 *.log
 *.egg-info
+.env
 venv
 .venv
 docs/_build
