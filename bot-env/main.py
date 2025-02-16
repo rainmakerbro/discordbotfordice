@@ -15,19 +15,21 @@ intents = discord.Intents.default()
 intents.message_content = True
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 
-bot = commands.Bot(command_prefix='?', description=description, intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('?'), description=description, intents=intents) # commands.when_mentioned_or("!") is used to make the bot respond to !ping and @bot ping
 
-@bot.event
-async def on_ready():
-    print(f'We have logged in as {bot.user}')
+async def setup_hook() -> None: # This function is automatically called before the bot starts
+    await bot.tree.sync() # Needed for syncing slash commands with discord
+
+bot.setup_hook = setup_hook
+
+bot.event
+async def on_ready() -> None: # called when the bot is ready
+    print(f'Logged in as {bot.user}')
     print('----------')
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-    if message.content.startswith('?hello'):
-        await message.channel.send('Hello!')
+@bot.tree.command()
+async def ping(inter: discord.Interaction) -> None:
+    await inter.response.send_message(f'> Pong! {round(bot.latency * 1000)}ms')
 
 @bot.command()
 async def roll(ctx, dice: str):
